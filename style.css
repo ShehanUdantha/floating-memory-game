@@ -14,139 +14,97 @@ body {
   color: white;
 }
 
-@media (min-width: 600px) {
-  body {
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-  }
-
-  .header-section {
-    width: 50rem;
-  }
-
-  .screen-section {
-    width: 50rem;
-  }
-
-  .modal-content {
-    width: 50rem;
-  }
-}
-
-.game-screen {
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-}
-
-.header-section {
-  max-width: 50rem;
-  min-width: 20rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem;
-  background-color: #7c7b7b;
-  align-items: center;
-  font-size: 0.9rem;
-}
-
 .header-section .first-section {
   display: flex;
-  flex-flow: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.8rem;
+  padding: 1rem;
 }
 
-.header-section .second-section {
+.header-section .first-section .btn-section {
   display: flex;
-  flex-flow: row;
-  justify-content: end;
-  align-items: center;
+  gap: 1rem;
 }
 
-.header-section .second-section .guidance {
+.header-section .first-section .btn-section .btn {
+  min-width: 4rem;
+  border-radius: 0.3rem;
+  border: 0;
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+  color: white;
   cursor: pointer;
 }
 
-.header-section #restart {
+.header-section .first-section .btn-section #start {
+  background-color: #198754;
   display: none;
 }
 
-.header-section .btn-section {
-  display: flex;
-  flex-flow: row;
-  justify-content: center;
-  align-items: center;
-  gap: 0.3rem;
+.header-section .first-section .btn-section #restart {
+  background-color: #ffc107;
+  display: none;
 }
 
-.header-section .btn-section .btn {
-  cursor: pointer;
+.header-section .first-section .btn-section #end {
+  background-color: #dc3545;
 }
 
-.header-section .remainTime {
+.header-section .first-section .timer {
+  color: #121212;
+  font-weight: 600;
+  padding-right: 0.1rem;
+}
+
+.header-section .first-section .remainTime {
   display: none;
 }
 
 .screen-section {
-  max-width: 50rem;
-  min-width: 20rem;
-  min-height: 30rem;
-  background-color: #121212;
+  border: solid 5px #121212;
+  margin: 0 1rem 1rem 1rem;
   position: relative;
+  height: 60vh;
   overflow: hidden;
 }
 
 .screen-section .box {
+  background-color: #ffe69c;
+  color: #121212;
+  border: 1px solid #121212;
   width: 4rem;
   height: 4rem;
   padding: 20px;
   margin: 1px;
-  background-color: #ffe4c4;
-  color: black;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
   position: absolute;
 }
 
-.screen-section #one {
-  right: 50%;
-  top: 20%;
+.third-section {
+  margin: 1rem;
+  color: #121212;
+}
+.third-section .guidance {
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
-.screen-section #two {
-  right: 30%;
-  top: 10%;
+.third-section .guide-list {
+  padding-top: 1rem;
+  line-height: 1.1;
+  padding-right: 0.5rem;
 }
-
-.screen-section #three {
-  right: 10%;
-  bottom: 40%;
-}
-
-.screen-section #four {
-  left: 10%;
-  bottom: 40%;
-}
-
-.screen-section #five {
-  right: 60%;
-  bottom: 20%;
-}
-
-.screen-section #six {
-  right: 30%;
-  bottom: 10%;
+.third-section .guide-list li {
+  padding-bottom: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .modal-section {
   display: none;
-  min-width: 20rem;
   color: #121212;
   position: fixed;
   z-index: 10;
@@ -161,11 +119,10 @@ body {
 
 .modal-section .modal-content {
   background-color: #fefefe;
-  max-width: 45rem;
-  min-width: 20rem;
   margin: auto;
-  padding: 0 20px 20px 20px;
+  padding: 0 10px 20px 20px;
   border: 1px solid #888;
+  border-radius: 1rem;
 }
 
 .modal-section .modal-content .close {
@@ -181,13 +138,20 @@ body {
 }
 
 .modal-section .modal-content .result {
-  display: none;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 800;
+  padding: 0.5rem 2rem 1rem 2rem;
   justify-content: center;
   align-items: center;
 }
 
-.modal-section .modal-content li {
-  padding-bottom: 1rem;
+@media (min-width: 768px) {
+  .game-screen {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    margin: auto;
+    width: 50rem;
+    padding-top: 2rem;
+  }
 }

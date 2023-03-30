@@ -1,11 +1,5 @@
+const header = document.querySelector(".header-section");
 const boxes = document.querySelector(".screen-section");
-const boxOne = document.getElementById("one");
-const boxTwo = document.getElementById("two");
-const boxThree = document.getElementById("three");
-const boxFour = document.getElementById("four");
-const boxFive = document.getElementById("five");
-const boxSix = document.getElementById("six");
-const boxValue = document.querySelectorAll(".box-value");
 
 const start = document.getElementById("start");
 const reStart = document.getElementById("restart");
@@ -18,94 +12,167 @@ const viewClass = document.querySelector(".viewTime");
 const remainClass = document.querySelector(".remainTime");
 
 const modal = document.querySelector(".modal-section");
-const guidance = document.querySelector(".guidance");
 const close = document.querySelector(".icon");
 const result = document.querySelector(".result");
-const list = document.querySelector(".ordered-list");
 
 // set default colors
 const primaryColor = "#ffe4c4";
 const secondaryColor = "#c9b49a";
+const winColor = "#ffc107";
+const loseColor = "#dc3545";
 
-//default positions
-const oneX = boxOne.offsetLeft;
-const oneY = boxOne.offsetTop;
+// get screen element width and height
+const boxesDefaultWidth = boxes.clientWidth;
+const boxesDefaultHeight = boxes.clientHeight;
+// console.log(boxesDefaultWidth, boxesDefaultHeight);
 
-const twoX = boxTwo.offsetLeft;
-const twoY = boxTwo.offsetTop;
+let boxesWidth = boxesDefaultWidth;
+let boxesHeight = boxesDefaultHeight;
+// console.log(boxesWidth, boxesHeight);
 
-const threeX = boxThree.offsetLeft;
-const threeY = boxThree.offsetTop;
+let boxOne;
+let boxTwo;
+let boxThree;
+let boxFour;
+let boxFive;
+let boxSix;
+let boxValue;
 
-const fourX = boxFour.offsetLeft;
-const fourY = boxFour.offsetTop;
+//draw boxes
+function drawBox() {
+  boxes.innerHTML = "";
+  for (let i = 0; i < 6; i++) {
+    // create a box
+    const box = document.createElement("div");
+    box.classList.add("box");
+    box.id = i + 1;
 
-const fiveX = boxFive.offsetLeft;
-const fiveY = boxFive.offsetTop;
+    // assign a number to the box
+    const span = document.createElement("span");
+    span.classList.add("box-value");
+    span.innerHTML = i + 1;
 
-const sixX = boxSix.offsetLeft;
-const sixY = boxSix.offsetTop;
+    box.appendChild(span);
 
-// moving box 10px speed
+    // set random position for box
+    let positionX = Math.floor(Math.random() * (boxesWidth / 1.5));
+    let positionY = Math.floor(Math.random() * (boxesHeight / 1.5));
+
+    // avoid the box stuck on wall when the game starting time
+    box.style.left =
+      positionX > 20
+        ? positionX < boxesWidth - 20
+          ? positionX + "px"
+          : positionX + 20 + "px"
+        : positionX + 20 + "px";
+
+    box.style.bottom =
+      positionY > 20
+        ? positionY < boxesHeight - 20
+          ? positionY + "px"
+          : positionY + 20 + "px"
+        : positionY + 20 + "px";
+
+    // add into a screen
+    boxes.appendChild(box);
+  }
+  boxOne = document.getElementById("1");
+  boxTwo = document.getElementById("2");
+  boxThree = document.getElementById("3");
+  boxFour = document.getElementById("4");
+  boxFive = document.getElementById("5");
+  boxSix = document.getElementById("6");
+  boxValue = document.querySelectorAll(".box-value");
+
+  // console.log(
+  //   boxOne.offsetLeft,
+  //   boxOne.offsetTop,
+  //   boxTwo.offsetLeft,
+  //   boxTwo.offsetTop,
+  //   boxThree.offsetLeft,
+  //   boxThree.offsetTop,
+
+  //   boxFour.offsetLeft,
+  //   boxFour.offsetTop,
+  //   boxFive.offsetLeft,
+  //   boxFive.offsetTop,
+  //   boxSix.offsetTop,
+  //   boxSix.offsetLeft
+  // );
+}
+drawBox();
+
+// declare a positions variable
+let positionOneX;
+let positionOneY;
+
+let positionTwoX;
+let positionTwoY;
+
+let positionThreeX;
+let positionThreeY;
+
+let positionFourX;
+let positionFourY;
+
+let positionFiveX;
+let positionFiveY;
+
+let positionSixX;
+let positionSixY;
+
+// update positions
+function updateThePositions() {
+  positionOneX = boxOne.offsetLeft;
+  positionOneY = boxOne.offsetTop;
+
+  positionTwoX = boxTwo.offsetLeft;
+  positionTwoY = boxTwo.offsetTop;
+
+  positionThreeX = boxThree.offsetLeft;
+  positionThreeY = boxThree.offsetTop;
+
+  positionFourX = boxFour.offsetLeft;
+  positionFourY = boxFour.offsetTop;
+
+  positionFiveX = boxFive.offsetLeft;
+  positionFiveY = boxFive.offsetTop;
+
+  positionSixX = boxSix.offsetLeft;
+  positionSixY = boxSix.offsetTop;
+}
+
+updateThePositions();
+
+// box moving length
 let speedOneX = 10;
 let speedOneY = 10;
 
-let speedTwoX = 10;
-let speedTwoY = 10;
+let speedTwoX = 11;
+let speedTwoY = 11;
 
-let speedThreeX = 10;
-let speedThreeY = 10;
+let speedThreeX = 12;
+let speedThreeY = 12;
 
-let speedFourX = 10;
-let speedFourY = 10;
+let speedFourX = 13;
+let speedFourY = 13;
 
-let speedFiveX = 10;
-let speedFiveY = 10;
+let speedFiveX = 14;
+let speedFiveY = 14;
 
-let speedSixX = 10;
-let speedSixY = 10;
-
-// get screen element width and height
-let boxesWidth = boxes.clientWidth;
-let boxesHeight = boxes.clientHeight;
-
-// const resize_ob = new ResizeObserver(function (entries) {
-//   // since we are observing only a single element, so we access the first element in entries array
-//   let rect = entries[0].contentRect;
-
-//   // current width & height
-//   boxesWidth = rect.width;
-//   boxesHeight = rect.height;
-// });
-
-// start observing for resize
-// resize_ob.observe(boxes);
-//console.log("w" + " " + boxesWidth, "h" + " " + boxesHeight);
-
-// get updated position
-let positionOneX = oneX;
-let positionOneY = oneY;
-
-let positionTwoX = twoX;
-let positionTwoY = twoY;
-
-let positionThreeX = threeX;
-let positionThreeY = threeY;
-
-let positionFourX = fourX;
-let positionFourY = fourY;
-
-let positionFiveX = fiveX;
-let positionFiveY = fiveY;
-
-let positionSixX = sixX;
-let positionSixY = sixY;
+let speedSixX = 15;
+let speedSixY = 15;
 
 // create default times
 const defaultViewTime = 15;
 const defaultRemainTime = 60;
 
-//  set default times
+// set default times
+function setDefaultTimes() {
+  viewTime.textContent = defaultViewTime;
+  remainTime.textContent = defaultRemainTime;
+}
+
 setDefaultTimes();
 
 // set default time to counters
@@ -118,12 +185,7 @@ let viewTimer;
 let boxArray = [];
 let isTrue = false;
 
-guidance.addEventListener("click", () => {
-  modal.style.display = "flex";
-  list.style.display = "block";
-  result.style.display = "none";
-});
-
+// button to close modal
 close.addEventListener("click", () => {
   modal.style.display = "none";
 });
@@ -149,67 +211,7 @@ end.addEventListener("click", () => {
   setToDefault();
 });
 
-// box click events
-boxOne.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    // console.log(boxOne.children[0].innerHTML);
-    addValues(boxOne.children[0].innerHTML);
-    boxOne.style.backgroundColor = secondaryColor;
-    boxOne.style.pointerEvents = "none";
-  }
-});
-
-boxTwo.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    // console.log(boxTwo.children[0].innerHTML);
-    addValues(boxTwo.children[0].innerHTML);
-    boxTwo.style.backgroundColor = secondaryColor;
-    boxTwo.style.pointerEvents = "none";
-  }
-});
-
-boxThree.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    // console.log(boxThree.children[0].innerHTML);
-    addValues(boxThree.children[0].innerHTML);
-    boxThree.style.backgroundColor = secondaryColor;
-    boxThree.style.pointerEvents = "none";
-  }
-});
-
-boxFour.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    // console.log(boxFour.children[0].innerHTML);
-    addValues(boxFour.children[0].innerHTML);
-    boxFour.style.backgroundColor = secondaryColor;
-    boxFour.style.pointerEvents = "none";
-  }
-});
-
-boxFive.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    // console.log(boxFive.children[0].innerHTML);
-    addValues(boxFive.children[0].innerHTML);
-    boxFive.style.backgroundColor = secondaryColor;
-    boxFive.style.pointerEvents = "none";
-  }
-});
-
-boxSix.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    // console.log(boxSix.children[0].innerHTML);
-    addValues(boxSix.children[0].innerHTML);
-    boxSix.style.backgroundColor = secondaryColor;
-    boxSix.style.pointerEvents = "none";
-  }
-});
-
+// display or hidden buttons specific time
 function setStylesForButtons(period) {
   if (period == "before") {
     start.style.display = "block";
@@ -222,16 +224,19 @@ function setStylesForButtons(period) {
   }
 }
 
+// display or hidden box numbers
 function displayBoxValues(displayType) {
   for (let i = 0; i < boxValue.length; i++) {
     boxValue[i].style.display = `${displayType === "hide" ? "none" : "block"}`;
   }
 }
 
+// count viewing time
 function setViewTimer() {
   viewTimer = setInterval(() => {
     if (countViewTime <= defaultViewTime && countViewTime >= 0) {
       viewTime.innerHTML = countViewTime--;
+      isView = true;
     } else {
       viewClass.style.display = "none";
       remainClass.style.display = "flex";
@@ -242,6 +247,61 @@ function setViewTimer() {
   }, 1000);
 }
 
+// box click events
+boxOne.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (isTrue) {
+    addValues(boxOne.children[0].innerHTML);
+    boxOne.style.backgroundColor = secondaryColor;
+    boxOne.style.pointerEvents = "none";
+  }
+});
+
+boxTwo.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (isTrue) {
+    addValues(boxTwo.children[0].innerHTML);
+    boxTwo.style.backgroundColor = secondaryColor;
+    boxTwo.style.pointerEvents = "none";
+  }
+});
+
+boxThree.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (isTrue) {
+    addValues(boxThree.children[0].innerHTML);
+    boxThree.style.backgroundColor = secondaryColor;
+    boxThree.style.pointerEvents = "none";
+  }
+});
+
+boxFour.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (isTrue) {
+    addValues(boxFour.children[0].innerHTML);
+    boxFour.style.backgroundColor = secondaryColor;
+    boxFour.style.pointerEvents = "none";
+  }
+});
+
+boxFive.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (isTrue) {
+    addValues(boxFive.children[0].innerHTML);
+    boxFive.style.backgroundColor = secondaryColor;
+    boxFive.style.pointerEvents = "none";
+  }
+});
+
+boxSix.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (isTrue) {
+    addValues(boxSix.children[0].innerHTML);
+    boxSix.style.backgroundColor = secondaryColor;
+    boxSix.style.pointerEvents = "none";
+  }
+});
+
 function taskRemover() {
   clearInterval(remainTimer);
   clearInterval(mover);
@@ -249,13 +309,15 @@ function taskRemover() {
   isTrue = false;
 }
 
-function setResult(result) {
+// display result
+function setResult(value, color) {
   modal.style.display = "flex";
-  result.style.display = "flex";
-  list.style.display = "none";
-  result.innerHTML = result;
+  result.innerHTML = value;
+  result.style.color = color;
+  // console.log(value);
 }
 
+// count remaining time
 function setRemainTimer() {
   remainTimer = setInterval(() => {
     if (countRemainTime <= defaultRemainTime && countRemainTime >= 0) {
@@ -263,32 +325,30 @@ function setRemainTimer() {
       isTrue = true;
     } else {
       taskRemover();
-      setResult("You lose!");
+      setResult("You lose!", loseColor);
       setToDefault();
     }
   }, 1000);
 }
 
+// check game win or lose
 function addValues(value) {
   boxArray.push(value);
-  console.log(boxArray);
+  // console.log(boxArray.toString());
 
   if (boxArray.length === 6) {
     taskRemover();
 
     if (boxArray.join("") === "123456") {
-      // console.log("you win!");
-      setResult("You win!");
+      setResult("You win!", winColor);
     } else {
-      // console.log("you lose!");
-      setResult("You lose!");
+      setResult("You lose!", loseColor);
     }
 
     setTimeout(() => {
       setToDefault();
     }, 5000);
   }
-  console.log(value);
 }
 
 function setBackgroundColorForAllBoxes(color) {
@@ -300,6 +360,7 @@ function setBackgroundColorForAllBoxes(color) {
   boxSix.style.backgroundColor = color;
 }
 
+// set all values to default
 function setToDefault() {
   setStylesForButtons("before");
   setDefaultTimes();
@@ -311,53 +372,11 @@ function setToDefault() {
 
   countViewTime = defaultViewTime;
   countRemainTime = defaultRemainTime;
-
-  positionOneX = oneX;
-  positionOneY = oneY;
-
-  positionTwoX = twoX;
-  positionTwoY = twoY;
-
-  positionThreeX = threeX;
-  positionThreeY = threeY;
-
-  positionFourX = fourX;
-  positionFourY = fourY;
-
-  positionFiveX = fiveX;
-  positionFiveY = fiveY;
-
-  positionSixX = sixX;
-  positionSixY = sixY;
-
-  positionBoxes();
+  drawBox();
+  updateThePositions();
 }
 
-function setDefaultTimes() {
-  viewTime.textContent = defaultViewTime;
-  remainTime.textContent = defaultRemainTime;
-}
-
-function positionBoxes() {
-  boxOne.style.left = `${positionOneX}px`;
-  boxOne.style.top = `${positionOneY}px`;
-
-  boxTwo.style.left = `${positionTwoX}px`;
-  boxTwo.style.top = `${positionTwoY}px`;
-
-  boxThree.style.left = `${positionThreeX}px`;
-  boxThree.style.top = `${positionThreeY}px`;
-
-  boxFour.style.left = `${positionFourX}px`;
-  boxFour.style.top = `${positionFourY}px`;
-
-  boxFive.style.left = `${positionFiveX}px`;
-  boxFive.style.top = `${positionFiveY}px`;
-
-  boxSix.style.left = `${positionSixX}px`;
-  boxSix.style.top = `${positionSixY}px`;
-}
-
+// start the game
 function startGame() {
   setStylesForButtons("after");
   setViewTimer();
@@ -382,51 +401,103 @@ function startGame() {
     positionSixX += speedSixX;
     positionSixY += speedSixY;
 
-    positionBoxes();
+    // add positions to boxes
+    boxOne.style.left = `${positionOneX}px`;
+    boxOne.style.bottom = `${positionOneY}px`;
 
-    // console.log(boxesWidth, positionOneX);
-    // console.log(boxesHeight, positionOneY);
+    boxTwo.style.left = `${positionTwoX}px`;
+    boxTwo.style.top = `${positionTwoY}px`;
 
-    // fix position overflow
-    if (positionOneX <= 5 || positionOneX >= boxesWidth - 70) {
+    boxThree.style.left = `${positionThreeX}px`;
+    boxThree.style.bottom = `${positionThreeY}px`;
+
+    boxFour.style.left = `${positionFourX}px`;
+    boxFour.style.top = `${positionFourY}px`;
+
+    boxFive.style.left = `${positionFiveX}px`;
+    boxFive.style.bottom = `${positionFiveY}px`;
+
+    boxSix.style.left = `${positionSixX}px`;
+    boxSix.style.top = `${positionSixY}px`;
+
+    // console.log("w" + " " + boxesWidth, "h" + " " + boxesHeight);
+
+    // fixed position overflow
+    if (
+      positionOneX <= 5 ||
+      positionOneX >= boxesWidth - (boxOne.clientWidth + 8)
+    ) {
       speedOneX *= -1;
     }
-    if (positionOneY <= 5 || positionOneY >= boxesHeight - 70) {
+    if (
+      positionOneY <= 5 ||
+      positionOneY >= boxesHeight - (boxOne.clientHeight + 4)
+    ) {
       speedOneY *= -1;
     }
 
-    if (positionTwoX <= 5 || positionTwoX >= boxesWidth - 70) {
+    if (
+      positionTwoX <= 5 ||
+      positionTwoX >= boxesWidth - (boxTwo.clientWidth + 5)
+    ) {
       speedTwoX *= -1;
     }
-    if (positionTwoY <= 5 || positionTwoY >= boxesHeight - 70) {
+    if (
+      positionTwoY <= 5 ||
+      positionTwoY >= boxesHeight - (boxTwo.clientHeight + 5)
+    ) {
       speedTwoY *= -1;
     }
 
-    if (positionThreeX <= 5 || positionThreeX >= boxesWidth - 70) {
+    if (
+      positionThreeX <= 5 ||
+      positionThreeX >= boxesWidth - (boxThree.clientWidth + 8)
+    ) {
       speedThreeX *= -1;
     }
-    if (positionThreeY <= 5 || positionThreeY >= boxesHeight - 70) {
+    if (
+      positionThreeY <= 5 ||
+      positionThreeY >= boxesHeight - (boxThree.clientHeight + 8)
+    ) {
       speedThreeY *= -1;
     }
 
-    if (positionFourX <= 5 || positionFourX >= boxesWidth - 70) {
+    if (
+      positionFourX <= 5 ||
+      positionFourX >= boxesWidth - (boxFour.clientWidth + 5)
+    ) {
       speedFourX *= -1;
     }
-    if (positionFourY <= 5 || positionFourY >= boxesHeight - 70) {
+    if (
+      positionFourY <= 5 ||
+      positionFourY >= boxesHeight - (boxFour.clientHeight + 8)
+    ) {
       speedFourY *= -1;
     }
 
-    if (positionFiveX <= 5 || positionFiveX >= boxesWidth - 70) {
+    if (
+      positionFiveX <= 6 ||
+      positionFiveX >= boxesWidth - (boxFive.clientWidth + 13)
+    ) {
       speedFiveX *= -1;
     }
-    if (positionFiveY <= 5 || positionFiveY >= boxesHeight - 70) {
+    if (
+      positionFiveY <= 5 ||
+      positionFiveY >= boxesHeight - (boxFive.clientHeight + 8)
+    ) {
       speedFiveY *= -1;
     }
 
-    if (positionSixX <= 5 || positionSixX >= boxesWidth - 70) {
+    if (
+      positionSixX <= 5 ||
+      positionSixX >= boxesWidth - (boxSix.clientWidth + 10)
+    ) {
       speedSixX *= -1;
     }
-    if (positionSixY <= 5 || positionSixY >= boxesHeight - 70) {
+    if (
+      positionSixY <= 5 ||
+      positionSixY >= boxesHeight - (boxSix.clientHeight + 10)
+    ) {
       speedSixY *= -1;
     }
   }, 200);

@@ -20,26 +20,41 @@
       <div class="game-screen">
         <div class="header-section">
           <div class="first-section">
+            <!-- button section -->
             <div class="btn-section">
               <button class="btn" id="start">Start</button>
               <button class="btn" id="restart">Restart</button>
               <button class="btn" id="end">End</button>
             </div>
 
-            <p class="viewTime">View Time:&nbsp;<span id="view"></span>s</p>
-            <p class="remainTime">
+            <!-- timer section -->
+            <p class="viewTime timer">
+              View Time:&nbsp;<span id="view"></span>s
+            </p>
+            <p class="remainTime timer">
               Remain Time:&nbsp;<span id="remain"></span>s
             </p>
           </div>
-          <div class="second-section"><p class="guidance">Guidance</p></div>
         </div>
-        <div class="screen-section">
-          <div class="box" id="one"><span class="box-value">1</span></div>
-          <div class="box" id="two"><span class="box-value">2</span></div>
-          <div class="box" id="three"><span class="box-value">3</span></div>
-          <div class="box" id="four"><span class="box-value">4</span></div>
-          <div class="box" id="five"><span class="box-value">5</span></div>
-          <div class="box" id="six"><span class="box-value">6</span></div>
+        <!-- game screen section -->
+        <div class="screen-section"></div>
+        <!-- guidance section -->
+        <div class="third-section">
+          <p class="guidance">Quick Guide</p>
+          <ol class="guide-list">
+            <li>Click the start button to start the game.</li>
+            <li>Remember the numbers on the boxes.</li>
+            <li>You have 15 seconds to remember the numbers.</li>
+            <li>After 15 seconds the numbers will disappear.</li>
+            <li>
+              Then you have 60 seconds to select the boxes by ascending order of
+              numbers (1,2,3,4,5,6).
+            </li>
+            <li>
+              If you select all of them in the correct order you will win the
+              game otherwise you will lose the game.
+            </li>
+          </ol>
         </div>
       </div>
     </main>
@@ -50,22 +65,7 @@
         <!-- close modal -->
         <p class="close"><span class="icon">&times;</span></p>
         <!-- result display section -->
-        <div class="result"><h1></h1></div>
-        <!-- guidance section -->
-        <ol class="ordered-list">
-          <li>Click the start button to start the game.</li>
-          <li>Remember the numbers on the boxes.</li>
-          <li>You have 15 seconds to remember the numbers.</li>
-          <li>After 15 seconds the numbers will disappear.</li>
-          <li>
-            Then you have 60 seconds to select the boxes by ascending order of
-            numbers (1,2,3,4,5,6).
-          </li>
-          <li>
-            If you select all of them in the correct order you will win the game
-            otherwise you will lose the game.
-          </li>
-        </ol>
+        <div class="result"></div>
       </div>
     </div>
 
