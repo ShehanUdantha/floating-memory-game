@@ -28,7 +28,6 @@ const boxesDefaultHeight = boxes.clientHeight;
 
 let boxesWidth = boxesDefaultWidth;
 let boxesHeight = boxesDefaultHeight;
-// console.log(boxesWidth, boxesHeight);
 
 let boxOne;
 let boxTwo;
@@ -36,11 +35,15 @@ let boxThree;
 let boxFour;
 let boxFive;
 let boxSix;
+let allBoxes;
 let boxValue;
+
+let isTrue = false;
 
 //draw boxes
 function drawBox() {
   boxes.innerHTML = "";
+
   for (let i = 0; i < 6; i++) {
     // create a box
     const box = document.createElement("div");
@@ -82,6 +85,7 @@ function drawBox() {
   boxFour = document.getElementById("4");
   boxFive = document.getElementById("5");
   boxSix = document.getElementById("6");
+  allBoxes = document.querySelectorAll(".box");
   boxValue = document.querySelectorAll(".box-value");
 
   // console.log(
@@ -99,6 +103,55 @@ function drawBox() {
   //   boxSix.offsetTop,
   //   boxSix.offsetLeft
   // );
+
+  // box click events
+  boxOne.addEventListener("click", () => {
+    if (isTrue) {
+      addValues(boxOne.children[0].innerHTML);
+      boxOne.style.backgroundColor = secondaryColor;
+      boxOne.style.pointerEvents = "none";
+    }
+  });
+
+  boxTwo.addEventListener("click", () => {
+    if (isTrue) {
+      addValues(boxTwo.children[0].innerHTML);
+      boxTwo.style.backgroundColor = secondaryColor;
+      boxTwo.style.pointerEvents = "none";
+    }
+  });
+
+  boxThree.addEventListener("click", () => {
+    if (isTrue) {
+      addValues(boxThree.children[0].innerHTML);
+      boxThree.style.backgroundColor = secondaryColor;
+      boxThree.style.pointerEvents = "none";
+    }
+  });
+
+  boxFour.addEventListener("click", () => {
+    if (isTrue) {
+      addValues(boxFour.children[0].innerHTML);
+      boxFour.style.backgroundColor = secondaryColor;
+      boxFour.style.pointerEvents = "none";
+    }
+  });
+
+  boxFive.addEventListener("click", () => {
+    if (isTrue) {
+      addValues(boxFive.children[0].innerHTML);
+      boxFive.style.backgroundColor = secondaryColor;
+      boxFive.style.pointerEvents = "none";
+    }
+  });
+
+  boxSix.addEventListener("click", () => {
+    if (isTrue) {
+      addValues(boxSix.children[0].innerHTML);
+      boxSix.style.backgroundColor = secondaryColor;
+      boxSix.style.pointerEvents = "none";
+    }
+  });
 }
 drawBox();
 
@@ -183,7 +236,6 @@ let mover;
 let remainTimer;
 let viewTimer;
 let boxArray = [];
-let isTrue = false;
 
 // button to close modal
 close.addEventListener("click", () => {
@@ -221,6 +273,10 @@ function setStylesForButtons(period) {
     start.style.display = "none";
     reStart.style.display = "block";
     end.style.display = "block";
+  } else if (period == "end") {
+    start.style.display = "none";
+    reStart.style.display = "none";
+    end.style.display = "none";
   }
 }
 
@@ -228,6 +284,9 @@ function setStylesForButtons(period) {
 function displayBoxValues(displayType) {
   for (let i = 0; i < boxValue.length; i++) {
     boxValue[i].style.display = `${displayType === "hide" ? "none" : "block"}`;
+    allBoxes[i].style.cursor = `${
+      displayType === "hide" ? "pointer" : "default"
+    }`;
   }
 }
 
@@ -236,7 +295,6 @@ function setViewTimer() {
   viewTimer = setInterval(() => {
     if (countViewTime <= defaultViewTime && countViewTime >= 0) {
       viewTime.innerHTML = countViewTime--;
-      isView = true;
     } else {
       viewClass.style.display = "none";
       remainClass.style.display = "flex";
@@ -246,61 +304,6 @@ function setViewTimer() {
     }
   }, 1000);
 }
-
-// box click events
-boxOne.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    addValues(boxOne.children[0].innerHTML);
-    boxOne.style.backgroundColor = secondaryColor;
-    boxOne.style.pointerEvents = "none";
-  }
-});
-
-boxTwo.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    addValues(boxTwo.children[0].innerHTML);
-    boxTwo.style.backgroundColor = secondaryColor;
-    boxTwo.style.pointerEvents = "none";
-  }
-});
-
-boxThree.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    addValues(boxThree.children[0].innerHTML);
-    boxThree.style.backgroundColor = secondaryColor;
-    boxThree.style.pointerEvents = "none";
-  }
-});
-
-boxFour.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    addValues(boxFour.children[0].innerHTML);
-    boxFour.style.backgroundColor = secondaryColor;
-    boxFour.style.pointerEvents = "none";
-  }
-});
-
-boxFive.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    addValues(boxFive.children[0].innerHTML);
-    boxFive.style.backgroundColor = secondaryColor;
-    boxFive.style.pointerEvents = "none";
-  }
-});
-
-boxSix.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (isTrue) {
-    addValues(boxSix.children[0].innerHTML);
-    boxSix.style.backgroundColor = secondaryColor;
-    boxSix.style.pointerEvents = "none";
-  }
-});
 
 function taskRemover() {
   clearInterval(remainTimer);
@@ -314,6 +317,7 @@ function setResult(value, color) {
   modal.style.display = "flex";
   result.innerHTML = value;
   result.style.color = color;
+  setStylesForButtons("end");
   // console.log(value);
 }
 
@@ -347,7 +351,7 @@ function addValues(value) {
 
     setTimeout(() => {
       setToDefault();
-    }, 5000);
+    }, 3000);
   }
 }
 
@@ -369,11 +373,16 @@ function setToDefault() {
   viewClass.style.display = "flex";
   remainClass.style.display = "none";
   taskRemover();
+  boxArray = [];
 
   countViewTime = defaultViewTime;
   countRemainTime = defaultRemainTime;
   drawBox();
   updateThePositions();
+
+  setTimeout(() => {
+    modal.style.display = "none";
+  }, 5000);
 }
 
 // start the game
